@@ -38,8 +38,9 @@ public class Subscriber implements Serializable{
 	private LocalDateTime expiresAt;
 	private LocalDateTime createdAt;
 	
+	
+	@OneToOne(mappedBy="subscriber")
 	@JsonIgnore
-	@OneToOne(cascade = CascadeType.ALL)
 	private User user;
 
 }

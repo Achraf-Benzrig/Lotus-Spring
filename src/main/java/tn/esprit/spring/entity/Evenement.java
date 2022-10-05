@@ -27,7 +27,7 @@ import tn.esprit.spring.User.User;
 @Entity
 
 public class Evenement implements Serializable {
-
+	
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -44,11 +44,11 @@ public class Evenement implements Serializable {
 	@ManyToMany(cascade = CascadeType.ALL)
 	private Set<User> participants;
 	
-	@JsonIgnore
+	
     @OneToOne
     private Cagnotte cagnotte;
 	
-	@JsonIgnore
+	
     @OneToOne
     private Reservation reservation;
 }

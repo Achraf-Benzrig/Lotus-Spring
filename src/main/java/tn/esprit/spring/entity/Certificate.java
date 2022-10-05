@@ -19,7 +19,7 @@ public class Certificate implements Serializable{
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	private Long id;
+	private Long idCertificate;
 	
 	private String file;
 	

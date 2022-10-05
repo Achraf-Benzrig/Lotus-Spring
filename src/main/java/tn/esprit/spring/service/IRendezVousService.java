@@ -11,8 +11,13 @@ public List<RendezVous> getAllRendezVous();
 public String updateRendezVous(RendezVous r,Long userId);
 public String deleteRendezVous(Long id);
 public boolean verifRendezVousDateInput(RendezVous r);
-public boolean verifExistCalendrMedcin(RendezVous r);
-public boolean verifExistCalendrLawyer(RendezVous r);
-public boolean verifExistCalendrPsy(RendezVous r);
-public boolean verifExistCalendr(RendezVous r);
+public int[] verifExistCalendrMedcin(RendezVous r);
+public int[] verifExistCalendrLawyer(RendezVous r);
+public int[] verifExistCalendrPsy(RendezVous r);
+public int[] verifExistCalendr(RendezVous r);
+public String generateCode(); 
+public String confirm(String code);
+String buildEmailredv(String name, String code, String link);
+String buildEmailMeet(String name, String code, String link);
+public void sendMeetLink();
 }

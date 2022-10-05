@@ -1,5 +1,6 @@
 package tn.esprit.spring.entity;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -28,10 +29,15 @@ public class Publication implements Serializable{
 	
 	private String title;
 	private String description;
-	private String type;
+	 @Enumerated(EnumType.STRING)
+	private TypePub type;
 	private String picture;
+
 	
-	@JsonIgnore
+	private int commentrs;
+
+	private LocalDateTime createdAt;
+
 	@ManyToOne
 	User users;
 	
@@ -39,8 +45,14 @@ public class Publication implements Serializable{
     @OneToMany(cascade = CascadeType.ALL, mappedBy="publications")
     private Set<Rating> ratings;
     
-    @JsonIgnore
+    
     @OneToMany(cascade = CascadeType.ALL, mappedBy="publications")
     private Set<CommentairePub> commentairesPub;
+
+	public Publication(String title, String description) {
+		super();
+		this.title = title;
+		this.description = description;
+	}
 
 }

@@ -33,6 +33,9 @@ public class Training implements Serializable{
 	private Date dateDebut;
 	private Date dateFin;
 	private Long nbrMaxApprenant;
+	private String affiche;
+	private String formateur;
+	
 	
 	@JsonIgnore
 	@ManyToMany(cascade = CascadeType.ALL)
@@ -52,4 +55,8 @@ public class Training implements Serializable{
 	
 	@OneToOne(mappedBy="trainings")
 	private Quiz quiz;
+	
+	@JsonIgnore
+	@ManyToOne
+	Interest intereset;
 }

@@ -3,13 +3,7 @@ package tn.esprit.spring.entity;
 import java.io.Serializable;
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,6 +21,10 @@ public class Offer implements Serializable{
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+	//@Size(min=5, max=20)
+	private String Title;
+	private String Domain;
+	private String Place;
 	private String description;
 	
 	@JsonIgnore
@@ -37,4 +35,7 @@ public class Offer implements Serializable{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy="offers")
 	private Set<Entretien> entretiens;
 
+	@JsonIgnore
+    @OneToMany(cascade = CascadeType.ALL, mappedBy="offer")
+    private Set<Candidature> candidatures;
 }

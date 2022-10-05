@@ -34,4 +34,38 @@ public class EmailService implements EmailSender{
             throw new IllegalStateException("failed to send email");
         }
     }
+    
+    @Override
+    @Async
+    public void sendrendv(String to, String email) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(email, true);
+            helper.setTo(to);
+            helper.setSubject("Confirm your Appointment ");
+            helper.setFrom("faroukgasaraa@gmail.com");
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            LOGGER.error("failed to send email", e);
+            throw new IllegalStateException("failed to send email");
+        }
+    }
+
+	@Override
+	public void sendmeet(String to, String email) {
+		try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(email, true);
+            helper.setTo(to);
+            helper.setSubject("Join your meet");
+            helper.setFrom("faroukgasaraa@gmail.com");
+            mailSender.send(mimeMessage);
+        } catch (MessagingException e) {
+            LOGGER.error("failed to send email", e);
+            throw new IllegalStateException("failed to send email");
+        }
+		
+	}
 }

@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -41,8 +42,12 @@ public class Reclamation implements Serializable {
 	private String description;
 	@Temporal(TemporalType.TIMESTAMP)
 	private Date dateReclamation = new Date(System.currentTimeMillis());
+	private boolean traitee=false;
 	@ManyToOne
 	private User user;
+	
+	@OneToOne
+	private ReponseRec reponseReclamation;
 	
 	
 	

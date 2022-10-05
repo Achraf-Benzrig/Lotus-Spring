@@ -1,9 +1,11 @@
 package tn.esprit.spring.User;
 
 import lombok.AllArgsConstructor;
+import tn.esprit.spring.entity.Blacklist;
 import tn.esprit.spring.registration.EmailValidator;
 import tn.esprit.spring.registration.token.ConfirmationToken;
 import tn.esprit.spring.registration.token.ConfirmationTokenService;
+import tn.esprit.spring.repository.BlacklistRepository;
 import tn.esprit.spring.repository.SubscriberRepository;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -32,15 +34,25 @@ public class UserService implements UserDetailsService {
     private final SubscriberRepository expertRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ConfirmationTokenService confirmationTokenService;
+    private final BlacklistRepository blacklistRepository;
 
     
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = appUserRepository.findByEmail(email).orElse(null);
-		if(user == null){
+		
+		List<Blacklist> blacklist = blacklistRepository.findAll();
+		Boolean b = false;
+		for (Blacklist blacklist2 : blacklist) {
+			if(blacklist2.getEmail().equals(email)){
+				b = true;
+			}
+			
+		}
+		if(user == null  || b == true){
 			throw new UsernameNotFoundException("User not found in the data base");
 		}
-		if(user.getEnabled()==false) {
+		if(user.getEnabled()==false||user.getLocked()==true) {
 			throw new UsernameNotFoundException("You need To Confirm your email");
 		
 		}
@@ -65,6 +77,17 @@ public class UserService implements UserDetailsService {
                 .findByEmail(appUser.getEmail())
                 .isPresent();
 
+		List<Blacklist> blacklist = blacklistRepository.findAll();
+		Boolean b = false;
+		for (Blacklist blacklist2 : blacklist) {
+			if(blacklist2.getEmail().equals(appUser.getEmail())){
+				b = true;
+			}
+			
+		}
+		if(b == true){
+			throw new IllegalStateException("blacklist");
+		}
         if (userExists) {
         	User u = appUserRepository.findByEmail(appUser.getEmail()).orElse(null);
         	if(u.getEnabled()==false){
@@ -79,12 +102,13 @@ public class UserService implements UserDetailsService {
                 		
                 		);
                 confirmationTokenService.saveConfirmationToken(confirmationToken);
-                return token;
+                return "email already taken";
         	}else{
-        		throw new IllegalStateException("email already taken");
+        		return "email already taken";
         	}
             
         }
+    
 
         String encodedPassword = bCryptPasswordEncoder
                 .encode(appUser.getPassword());
@@ -102,7 +126,7 @@ public class UserService implements UserDetailsService {
         		
         		);
         confirmationTokenService.saveConfirmationToken(confirmationToken);
-        return token;
+        return "";
     }
     
     public int enableAppUser(String email) {

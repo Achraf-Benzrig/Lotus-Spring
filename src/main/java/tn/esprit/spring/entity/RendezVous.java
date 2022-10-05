@@ -48,6 +48,7 @@ public class RendezVous implements Serializable{
 	private Date fin;
 	private String description;
 	private String code  ;
+	private boolean confirmed=false;
 	@JsonIgnore
 	@ManyToOne
 	private User user;

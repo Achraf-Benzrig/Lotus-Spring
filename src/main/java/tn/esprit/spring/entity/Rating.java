@@ -30,6 +30,8 @@ public class Rating implements Serializable{
 	
 	private float rate;
 	
+	private String rateBy;
+	
 	@JsonIgnore
 	@ManyToOne
 	Publication publications;
